@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/modules/login_screen/cubit.dart';
 import 'package:shop_app/modules/login_screen/login_screen.dart';
 import 'package:shop_app/modules/register_screen/cubit.dart';
 import 'package:shop_app/modules/register_screen/states.dart';
@@ -11,15 +10,17 @@ import '../../layout/layout.dart';
 import '../../network/remote/cashe_helper.dart';
 import '../../shared/components/components.dart';
 import '../../shared/constants.dart';
-import '../login_screen/states.dart';
 
+// ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
-  var NameController = TextEditingController();
+  var nameController = TextEditingController();
 
-  var EmailController = TextEditingController();
-  var PasswordController = TextEditingController();
-  var PhoneController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var phoneController = TextEditingController();
+
+  RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
                 ShopCubit.get(context).getUserData();
                 ShopCubit.get(context).getCategoriesData();
 
-                navigateAndFinish(context, ShopLayout());
+                navigateAndFinish(context, const ShopLayout());
               });
               /* showToast(
                   text: state.loginModel.message.toString(),
@@ -79,23 +80,25 @@ class RegisterScreen extends StatelessWidget {
                               .copyWith(color: Colors.grey),
                         ),
                         defaultFormField(context,
-                            controller: NameController,
+                            controller: nameController,
                             type: TextInputType.name,
                             validate: (String? value) {
                           if (value!.isEmpty) {
                             return "Please Enter Your name";
                           }
+                          return null;
                         }, label: "Name", prefix: Icons.person),
                         const SizedBox(
                           height: 15.0,
                         ),
                         defaultFormField(context,
-                            controller: EmailController,
+                            controller: emailController,
                             type: TextInputType.emailAddress,
                             validate: (String? value) {
                           if (value!.isEmpty) {
                             return "Please Enter Your Email";
                           }
+                          return null;
                         },
                             label: "Email Address",
                             prefix: Icons.email_outlined),
@@ -103,35 +106,27 @@ class RegisterScreen extends StatelessWidget {
                           height: 15.0,
                         ),
                         defaultFormField(context,
-                            controller: PhoneController,
+                            controller: phoneController,
                             type: TextInputType.phone,
                             validate: (String? value) {
                           if (value!.isEmpty) {
                             return "Please Enter Your phone";
                           }
+                          return null;
                         }, label: "Name", prefix: Icons.phone),
-                        SizedBox(
+                        const SizedBox(
                           height: 15.0,
                         ),
                         defaultFormField(
                           context,
                           isPassword: ShopRegisterCubit.get(context).isVisible,
-                          controller: PasswordController,
+                          controller: passwordController,
                           type: TextInputType.visiblePassword,
-                          onSubmit: (value) {
-                            /* 
-                            if (formKey.currentState!.validate()) {
-                              ShopRegisterCubit.get(context).userRegister(
-                                  email: EmailController.text,
-                                  password: PasswordController.text,
-                                  name: NameController.text,
-                                  phone: PhoneController.text);
-                            } */
-                          },
                           validate: (String? value) {
                             if (value!.isEmpty) {
                               return "Please Enter Your Password";
                             }
+                            return null;
                           },
                           label: "Password",
                           prefix: Icons.lock_outline,
@@ -150,16 +145,16 @@ class RegisterScreen extends StatelessWidget {
                               function: () {
                                 if (formKey.currentState!.validate()) {
                                   ShopRegisterCubit.get(context).userRegister(
-                                      name: NameController.text,
-                                      phone: PhoneController.text,
-                                      email: EmailController.text,
-                                      password: PasswordController.text);
+                                      name: nameController.text,
+                                      phone: phoneController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text);
                                 }
                               },
                               text: "Register",
                               isUpperCase: true),
                           fallback: (context) =>
-                              Center(child: CircularProgressIndicator()),
+                              const Center(child: CircularProgressIndicator()),
                         ),
                         const SizedBox(
                           height: 15.0,
@@ -167,14 +162,15 @@ class RegisterScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Have An Account?"),
+                            const Text("Have An Account?"),
                             TextButton(
                                 onPressed: () {
-                                  navigateTo(context, loginScreen());
+                                  navigateTo(context, LoginScreen());
                                 },
                                 child: Text(
                                   'Login'.toUpperCase(),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ))
                           ],
                         )

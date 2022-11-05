@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/layout/cubit/shop_states.dart';
@@ -6,30 +5,24 @@ import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/change_favorite_model.dart';
 import 'package:shop_app/models/favorites_model.dart';
 import 'package:shop_app/models/home_model.dart';
-import 'package:shop_app/models/login_model.dart';
 import 'package:shop_app/models/profile_model.dart';
 import 'package:shop_app/modules/categories/categories_screen.dart';
 import 'package:shop_app/modules/favorites/fav.dart';
-import 'package:shop_app/modules/favorites/favorites_screen.dart';
 import 'package:shop_app/modules/products/products_screen.dart';
 import 'package:shop_app/modules/settings/settings_screen.dart';
 import 'package:shop_app/network/endpoint.dart';
 import 'package:shop_app/network/remote/dio_helper.dart';
 import 'package:shop_app/shared/constants.dart';
 
-import '../../modules/login_screen/login_screen.dart';
-import '../../network/remote/cashe_helper.dart';
-import '../../shared/components/components.dart';
-
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
   static ShopCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
-  List<Widget> BottomScreens = [
-    ProductsScreen(),
-    categoriesScreen(),
-    FfavoritesScreen(),
+  List<Widget> bottomScreens = [
+    const ProductsScreen(),
+    const CategoriesScreen(),
+    const FavoritesScreen(),
     SettingScreen()
   ];
   void changeBottom(int index) {
@@ -51,7 +44,6 @@ class ShopCubit extends Cubit<ShopStates> {
       //print(favourites.toString());
       emit(ShopSuccessHomeDataState());
     }).catchError((error) {
-      print('error is $error');
       emit(ShopErrorHomeDataState());
     });
   }
@@ -64,7 +56,6 @@ class ShopCubit extends Cubit<ShopStates> {
       categoriesmodel = CategoriesModel.fromjson(value.data);
       emit(ShopSuccessCategoriesState());
     }).catchError((error) {
-      print('error is $error');
       emit(ShopErrorCategoriesState());
     });
   }
@@ -105,7 +96,6 @@ class ShopCubit extends Cubit<ShopStates> {
       emit(ShopSuccessGetFavoritesState());
     }).catchError((error) {
       emit(ShopErrorGetFavoritesState());
-      print(error.toString());
     });
   }
 
@@ -117,12 +107,11 @@ class ShopCubit extends Cubit<ShopStates> {
       //print(profileModel!.data!.name);
       emit(ShopSuccessGetUserDataState(profileModel));
     }).catchError((error) {
-      print(error.toString());
       emit(ShopErrorGetUserDataState());
     });
   }
 
-  void UpdateUserData(
+  void updateUserData(
       {required String name, required String email, required String phone}) {
     emit(ShopLoadingUpdateUserState());
     DioHelper.putData(
@@ -133,7 +122,6 @@ class ShopCubit extends Cubit<ShopStates> {
       //print(profileModel!.data!.name);
       emit(ShopSuccessGetUpdateUserState(profileModel));
     }).catchError((error) {
-      print(error.toString());
       emit(ShopErrorGetUpdateUserState());
     });
   }

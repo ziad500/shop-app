@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class HomeModel {
   bool? status;
   HomeDataModel? data;
@@ -13,11 +11,11 @@ class HomeDataModel {
   List<BannerModel> banners = [];
   List<ProductsModel> products = [];
   HomeDataModel.fromjson(Map<String, dynamic> json) {
-    json['banners'].forEach((Element) {
-      banners.add(BannerModel.fromjson(Element));
+    json['banners'].forEach((element) {
+      banners.add(BannerModel.fromjson(element));
     });
-    json['products'].forEach((Element) {
-      products.add(ProductsModel.fromjson(Element));
+    json['products'].forEach((element) {
+      products.add(ProductsModel.fromjson(element));
     });
   }
 }

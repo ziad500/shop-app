@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/layout/cubit/shop_cubit.dart';
 import 'package:shop_app/modules/search/search_cubit.dart';
 import 'package:shop_app/modules/search/search_states.dart';
 import 'package:shop_app/shared/components/components.dart';
-import 'package:shop_app/modules/favorites/fav.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -34,20 +32,22 @@ class SearchScreen extends StatelessWidget {
                                 if (value!.isEmpty) {
                                   return 'enter text to search';
                                 }
+                                return null;
                               },
                               label: 'Search',
                               prefix: Icons.search,
                               onSubmit: (String? text) {
-                                cubit.Search(text!);
+                                cubit.search(text!);
+                                return null;
                               }),
-                          SizedBox(
+                          const SizedBox(
                             height: 10.0,
                           ),
                           if (state is SearchLoadingState)
-                            LinearProgressIndicator(),
+                            const LinearProgressIndicator(),
                           if (state is SearchSuccessState)
                             ListView.separated(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) =>
                                     favoriteProducts(

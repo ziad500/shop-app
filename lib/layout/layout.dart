@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/modules/login_screen/login_screen.dart';
 import 'package:shop_app/modules/search/search_screen.dart';
-import 'package:shop_app/network/remote/cashe_helper.dart';
 import 'package:shop_app/shared/components/components.dart';
 
 import 'cubit/shop_cubit.dart';
 import 'cubit/shop_states.dart';
 
 class ShopLayout extends StatelessWidget {
+  const ShopLayout({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
@@ -20,13 +20,13 @@ class ShopLayout extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    navigateTo(context, SearchScreen());
+                    navigateTo(context, const SearchScreen());
                   },
-                  icon: Icon(Icons.search))
+                  icon: const Icon(Icons.search))
             ],
-            title: Text('sala'),
+            title: const Text('sala'),
           ),
-          body: cubit.BottomScreens[cubit.currentIndex],
+          body: cubit.bottomScreens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             onTap: (index) {
               cubit.changeBottom(index);

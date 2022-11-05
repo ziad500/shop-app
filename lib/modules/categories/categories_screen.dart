@@ -5,8 +5,8 @@ import 'package:shop_app/layout/cubit/shop_states.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/shared/components/components.dart';
 
-class categoriesScreen extends StatelessWidget {
-  const categoriesScreen({Key? key}) : super(key: key);
+class CategoriesScreen extends StatelessWidget {
+  const CategoriesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +32,16 @@ class categoriesScreen extends StatelessWidget {
               width: 80.0,
               height: 80.0,
             ),
-            SizedBox(
+            const SizedBox(
               width: 20.0,
             ),
             Text(
               '${model.name}',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
-            Spacer(),
-            Icon(Icons.arrow_forward_ios)
+            const Spacer(),
+            const Icon(Icons.arrow_forward_ios)
           ],
         ),
       );

@@ -14,6 +14,8 @@ class BoardingModel {
 }
 
 class OnBoardingScreen extends StatefulWidget {
+  const OnBoardingScreen({Key? key}) : super(key: key);
+
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
@@ -21,7 +23,7 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   var boardcontroller = PageController();
 
-  List<BoardingModel> Boarding = [
+  List<BoardingModel> boarding = [
     BoardingModel(
       title: 'Explor',
       body:
@@ -47,7 +49,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void submit() {
     CasheHelper.saveData(key: 'onBoarding', value: true).then((value) {
-      if (value == true) navigateAndFinish(context, loginScreen());
+      if (value == true) navigateAndFinish(context, LoginScreen());
     });
   }
 
@@ -58,7 +60,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           actions: [
             TextButton(
                 onPressed: submit,
-                child: Text(
+                child: const Text(
                   'SKIP',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ))
@@ -72,7 +74,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 child: PageView.builder(
                   controller: boardcontroller,
                   onPageChanged: (int index) {
-                    if (index == Boarding.length - 1) {
+                    if (index == boarding.length - 1) {
                       setState(() {
                         isLast = true;
                       });
@@ -82,10 +84,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       });
                     }
                   },
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) =>
-                      buildBoardingItem(Boarding[index]),
-                  itemCount: Boarding.length,
+                      buildBoardingItem(boarding[index]),
+                  itemCount: boarding.length,
                 ),
               ),
               const SizedBox(
@@ -95,7 +97,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 children: [
                   SmoothPageIndicator(
                     controller: boardcontroller,
-                    count: Boarding.length,
+                    count: boarding.length,
                     effect: const ExpandingDotsEffect(
                         dotHeight: 10.0,
                         dotColor: Colors.grey,
@@ -104,18 +106,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         spacing: 5.0,
                         activeDotColor: defaultColor),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   FloatingActionButton(
                     onPressed: () {
                       if (isLast == true) {
                         submit();
                       } else {
                         boardcontroller.nextPage(
-                            duration: Duration(milliseconds: 750),
+                            duration: const Duration(milliseconds: 750),
                             curve: Curves.fastLinearToSlowEaseIn);
                       }
                     },
-                    child: Icon(Icons.arrow_forward_ios),
+                    child: const Icon(Icons.arrow_forward_ios),
                   )
                 ],
               )
@@ -127,20 +129,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget buildBoardingItem(BoardingModel model) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: Image(image: AssetImage('${model.image}'))),
+          Expanded(child: Image(image: AssetImage(model.image))),
           Text(
-            '${model.title}',
-            style: TextStyle(
+            model.title,
+            style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24.0,
                 color: Color(0xff00000099)),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15.0,
           ),
           Text(
-            '${model.body}',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+            model.body,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
           )
         ],
       );

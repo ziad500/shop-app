@@ -1,17 +1,19 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/styles/colors.dart';
 
 import '../../layout/cubit/shop_cubit.dart';
 
-void navigateTo(context, Widget) => Navigator.push(
+void navigateTo(context, widget) => Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Widget),
+      MaterialPageRoute(builder: (context) => widget),
     );
 
-void navigateAndFinish(context, Widget) => Navigator.pushAndRemoveUntil(
+void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => Widget),
+      MaterialPageRoute(builder: (context) => widget),
       (Route<dynamic> route) => false,
     );
 
@@ -40,7 +42,7 @@ Widget defaultFormField(
       onTap: onTap,
       validator: validate,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         labelText: label,
         prefixIcon: Icon(
           prefix,
@@ -73,7 +75,7 @@ Widget defaultButton({
         onPressed: function,
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
@@ -98,6 +100,7 @@ void showToast({
         backgroundColor: chooseToastColor(state),
         textColor: Colors.white,
         fontSize: 16.0);
+
 enum ToastStates { SUCCESS, ERROR, WARNING }
 
 Color chooseToastColor(ToastStates state) {
@@ -125,13 +128,13 @@ Widget myDivider() => Padding(
       ),
     );
 
-Widget BuildFavItem(
+Widget buildFavItem(
   model,
   context,
 ) =>
     Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Container(
+      child: SizedBox(
         height: 120.0,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,12 +142,11 @@ Widget BuildFavItem(
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Spacer(),
+                const Spacer(),
                 IconButton(
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       ShopCubit.get(context).changeFavorites(model!.id);
-                      print(model.id);
                     },
                     icon: CircleAvatar(
                         backgroundColor:
@@ -187,7 +189,7 @@ Widget BuildFavItem(
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               width: 20.0,
             ),
             Expanded(
@@ -198,9 +200,9 @@ Widget BuildFavItem(
                     '${model.name}',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(height: 1.3),
+                    style: const TextStyle(height: 1.3),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
                       Text(
@@ -220,7 +222,7 @@ Widget BuildFavItem(
                               fontSize: 10.0,
                               decoration: TextDecoration.lineThrough),
                         ),
-                      Spacer(),
+                      const Spacer(),
                       if (model.discount != 0)
                         Text(
                           '${model.discount!.round()}%',
@@ -249,10 +251,10 @@ Widget favoriteProducts(model, context, {bool isOldPrice = true}) {
     },
     child: Container(
       height: 180,
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 100,
             child: Row(
               children: [
@@ -261,7 +263,7 @@ Widget favoriteProducts(model, context, {bool isOldPrice = true}) {
                   width: 100,
                   height: 100,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -271,22 +273,22 @@ Widget favoriteProducts(model, context, {bool isOldPrice = true}) {
                     children: [
                       Text(
                         '${model.name}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           height: 1.3,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        'EGP ' + '${model.price}',
-                        style: TextStyle(
+                        'EGP ' '${model.price}',
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       if (model.discount != 0 && isOldPrice)
                         Text(
-                          'EGP' + '${model.oldPrice}',
-                          style: TextStyle(
+                          'EGP' '${model.oldPrice}',
+                          style: const TextStyle(
                               decoration: TextDecoration.lineThrough,
                               color: Colors.grey),
                         ),
@@ -296,10 +298,10 @@ Widget favoriteProducts(model, context, {bool isOldPrice = true}) {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.shopping_cart_outlined,
                 color: Colors.grey,
               ),
@@ -309,14 +311,14 @@ Widget favoriteProducts(model, context, {bool isOldPrice = true}) {
 /*                       ShopCubit.get(context).addToCart(model.id);
  */
                   },
-                  child: Text(
+                  child: const Text(
                     'Add To Cart',
                     style: TextStyle(
                       color: Colors.grey,
                     ),
                   )),
-              Spacer(),
-              Icon(
+              const Spacer(),
+              const Icon(
                 Icons.delete_outline_outlined,
                 color: Colors.grey,
               ),
@@ -325,7 +327,7 @@ Widget favoriteProducts(model, context, {bool isOldPrice = true}) {
                     ShopCubit.get(context).changeFavorites(model.id);
                     ShopCubit.get(context).getFavoriteData();
                   },
-                  child: Text('Remove',
+                  child: const Text('Remove',
                       style: TextStyle(
                         color: Colors.grey,
                       ))),

@@ -6,11 +6,14 @@ import 'package:shop_app/layout/cubit/shop_states.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/constants.dart';
 
+// ignore: must_be_immutable
 class SettingScreen extends StatelessWidget {
-  var FromKey = GlobalKey<FormState>();
+  var fromKey = GlobalKey<FormState>();
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
+
+  SettingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +43,8 @@ class SettingScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       if (state is ShopLoadingUpdateUserState)
-                        LinearProgressIndicator(),
-                      SizedBox(
+                        const LinearProgressIndicator(),
+                      const SizedBox(
                         height: 20.0,
                       ),
                       defaultFormField(context,
@@ -50,8 +53,9 @@ class SettingScreen extends StatelessWidget {
                         if (value!.isEmpty) {
                           return "name must not be empty";
                         }
+                        return null;
                       }, label: 'Name', prefix: Icons.person),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       defaultFormField(context,
@@ -61,8 +65,9 @@ class SettingScreen extends StatelessWidget {
                         if (value!.isEmpty) {
                           return "email must not be empty";
                         }
+                        return null;
                       }, label: 'Email Address', prefix: Icons.email_outlined),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       defaultFormField(context,
@@ -71,21 +76,22 @@ class SettingScreen extends StatelessWidget {
                         if (value!.isEmpty) {
                           return "Phone must not be empty";
                         }
+                        return null;
                       }, label: 'Phone', prefix: Icons.phone),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       defaultButton(
                           function: () {
                             if (formKey.currentState!.validate()) {
-                              ShopCubit.get(context).UpdateUserData(
+                              ShopCubit.get(context).updateUserData(
                                   name: nameController.text,
                                   email: emailController.text,
                                   phone: phoneController.text);
                             }
                           },
                           text: 'Update'),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       defaultButton(
@@ -100,7 +106,7 @@ class SettingScreen extends StatelessWidget {
             ),
           );
         },
-        fallback: (context) => Scaffold(
+        fallback: (context) => const Scaffold(
           backgroundColor: Colors.white,
           body: Center(
             child: CircularProgressIndicator(),

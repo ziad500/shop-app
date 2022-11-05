@@ -2,12 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/layout/cubit/shop_cubit.dart';
 import 'package:shop_app/layout/cubit/shop_states.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_model.dart';
-import 'package:shop_app/network/endpoint.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/styles/colors.dart';
 
@@ -16,7 +14,7 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ShopCubit Cubit = ShopCubit.get(context);
+    ShopCubit cubit = ShopCubit.get(context);
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {
         if (state is ShopSuccessChangeFavoritesState) {
@@ -27,9 +25,9 @@ class ProductsScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return ConditionalBuilder(
-            condition: Cubit.homemodel != null && Cubit.categoriesmodel != null,
+            condition: cubit.homemodel != null && cubit.categoriesmodel != null,
             builder: (context) => productsBuilder(
-                Cubit.homemodel, Cubit.categoriesmodel, context),
+                cubit.homemodel, cubit.categoriesmodel, context),
             fallback: (context) => const Center(
                   child: CircularProgressIndicator(),
                 ));
@@ -40,7 +38,7 @@ class ProductsScreen extends StatelessWidget {
   Widget productsBuilder(
           HomeModel? model, CategoriesModel? categoriesModel, context) =>
       SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,8 +58,8 @@ class ProductsScreen extends StatelessWidget {
                   reverse: false,
                   viewportFraction: 1.0,
                   autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(seconds: 1),
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayAnimationDuration: const Duration(seconds: 1),
                   autoPlayCurve: Curves.fastOutSlowIn,
                   scrollDirection: Axis.horizontal),
             ),
@@ -81,10 +79,10 @@ class ProductsScreen extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
+                  SizedBox(
                     height: 100,
                     child: ListView.separated(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) =>
                           buildCategoryItem(categoriesModel!.data!.data[index]),
@@ -112,7 +110,7 @@ class ProductsScreen extends StatelessWidget {
               color: Colors.grey[300],
               child: GridView.count(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: 1.0,
                 crossAxisSpacing: 1.0,
                 childAspectRatio: 1 / 1.6,
@@ -134,13 +132,12 @@ class ProductsScreen extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Spacer(),
+                const Spacer(),
                 IconButton(
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       ShopCubit.get(context).changeFavorites(model!.id);
                       ShopCubit.get(context).getFavoriteData();
-                      print(model.id);
                     },
                     icon: CircleAvatar(
                         backgroundColor:
@@ -191,7 +188,7 @@ class ProductsScreen extends StatelessWidget {
                     '${model.name}',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(height: 1.3),
+                    style: const TextStyle(height: 1.3),
                   ),
                   Row(
                     children: [
@@ -212,7 +209,7 @@ class ProductsScreen extends StatelessWidget {
                               fontSize: 10.0,
                               decoration: TextDecoration.lineThrough),
                         ),
-                      Spacer(),
+                      const Spacer(),
                       if (model.discount != 0)
                         Text(
                           '${model.discount.round()}%',
@@ -231,24 +228,22 @@ class ProductsScreen extends StatelessWidget {
           ],
         ),
       );
-  Widget buildCategoryItem(DataModel model) => Container(
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: NetworkImage(
-                '${model.image}',
-              ),
+  Widget buildCategoryItem(DataModel model) => Column(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage(
+              '${model.image}',
             ),
-            Text(
-              '${model.name}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            '${model.name}',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
             ),
-          ],
-        ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       );
 }

@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/layout/cubit/shop_cubit.dart';
 import 'package:shop_app/layout/layout.dart';
 import 'package:shop_app/modules/login_screen/cubit.dart';
@@ -11,12 +10,15 @@ import 'package:shop_app/network/remote/cashe_helper.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/constants.dart';
 
-class loginScreen extends StatelessWidget {
+// ignore: must_be_immutable
+class LoginScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
+
+  LoginScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var EmailController = TextEditingController();
-    var PasswordController = TextEditingController();
+    var emailController = TextEditingController();
+    var passwordController = TextEditingController();
 
     return BlocProvider(
       create: (context) => ShopLoginCubit(),
@@ -33,7 +35,7 @@ class loginScreen extends StatelessWidget {
                 ShopCubit.get(context).getUserData();
                 ShopCubit.get(context).getCategoriesData();
 
-                navigateAndFinish(context, ShopLayout());
+                navigateAndFinish(context, const ShopLayout());
               });
               /* showToast(
                   text: state.loginModel.message.toString(),
@@ -57,7 +59,7 @@ class loginScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.home,
                           size: 100,
                         ),
@@ -81,12 +83,13 @@ class loginScreen extends StatelessWidget {
                           height: 30.0,
                         ),
                         defaultFormField(context,
-                            controller: EmailController,
+                            controller: emailController,
                             type: TextInputType.emailAddress,
                             validate: (String? value) {
                           if (value!.isEmpty) {
                             return "Please Enter Your Email";
                           }
+                          return null;
                         },
                             label: "Email Address",
                             prefix: Icons.email_outlined),
@@ -96,19 +99,21 @@ class loginScreen extends StatelessWidget {
                         defaultFormField(
                           context,
                           isPassword: ShopLoginCubit.get(context).isVisible,
-                          controller: PasswordController,
+                          controller: passwordController,
                           type: TextInputType.visiblePassword,
                           onSubmit: (value) {
                             if (formKey.currentState!.validate()) {
                               ShopLoginCubit.get(context).userLogin(
-                                  email: EmailController.text,
-                                  password: PasswordController.text);
+                                  email: emailController.text,
+                                  password: passwordController.text);
                             }
+                            return null;
                           },
                           validate: (String? value) {
                             if (value!.isEmpty) {
                               return "Please Enter Your Password";
                             }
+                            return null;
                           },
                           label: "Password",
                           prefix: Icons.lock_outline,
@@ -127,14 +132,14 @@ class loginScreen extends StatelessWidget {
                               function: () {
                                 if (formKey.currentState!.validate()) {
                                   ShopLoginCubit.get(context).userLogin(
-                                      email: EmailController.text,
-                                      password: PasswordController.text);
+                                      email: emailController.text,
+                                      password: passwordController.text);
                                 }
                               },
                               text: "LOGIN",
                               isUpperCase: true),
                           fallback: (context) =>
-                              Center(child: CircularProgressIndicator()),
+                              const Center(child: CircularProgressIndicator()),
                         ),
                         const SizedBox(
                           height: 15.0,
@@ -142,14 +147,15 @@ class loginScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Don't Have An Account?"),
+                            const Text("Don't Have An Account?"),
                             TextButton(
                                 onPressed: () {
                                   navigateTo(context, RegisterScreen());
                                 },
                                 child: Text(
                                   'Sign Up!'.toUpperCase(),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ))
                           ],
                         )

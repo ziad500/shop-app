@@ -7,7 +7,7 @@ void signout(context) {
   CasheHelper.removeData(key: 'token').then((value) {
     if (value) {
       ShopCubit.get(context).currentIndex = 0;
-      navigateAndFinish(context, loginScreen());
+      navigateAndFinish(context, LoginScreen());
     }
   });
 }

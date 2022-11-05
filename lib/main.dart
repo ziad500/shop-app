@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/layout/cubit/shop_cubit.dart';
@@ -6,13 +5,10 @@ import 'package:shop_app/layout/cubit/shop_states.dart';
 import 'package:shop_app/layout/layout.dart';
 import 'package:shop_app/modules/login_screen/login_screen.dart';
 import 'package:shop_app/modules/on_boarding/onboarding_screen.dart';
-import 'package:shop_app/modules/register_screen/register_screen.dart';
-import 'package:shop_app/modules/search/search_screen.dart';
-import 'package:shop_app/modules/settings/settings_screen.dart';
+
 import 'package:shop_app/network/remote/cashe_helper.dart';
 import 'package:shop_app/styles/themes/themes.dart';
 import 'package:shop_app/shared/constants.dart';
-import 'network/remote/bloc_observer.dart';
 import 'network/remote/dio_helper.dart';
 
 Future<void> main() async {
@@ -29,9 +25,9 @@ Future<void> main() async {
 
   if (onBoarding != null) {
     if (token != null) {
-      widget = ShopLayout();
+      widget = const ShopLayout();
     } else {
-      widget = loginScreen();
+      widget = LoginScreen();
     }
   } else {
     widget = OnBoardingScreen();
@@ -42,7 +38,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final Widget startWidget;
 
-  const MyApp(this.startWidget);
+  const MyApp(this.startWidget, {Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
