@@ -1,7 +1,7 @@
 e-commerce App
 
-Design of Android and IOS application for Shop the latest trends and stay connected to your favorite brands, all
-in one - place.
+Design of Android and IOS application for Shop the latest trends and stay connected to your favorite brands, all in one - place.
+
 -Developed using Flutter ,MVVM architected ,Bloc state management.
 -Participated in making app UI, integrating APIs.
 -integration with third party to fetch stats and data using GraphQL and Rest apis.
